@@ -1,0 +1,147 @@
+<UserControl x:Class="JiraTool.Views.TaskListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:JiraTool.Views"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000"
+             Loaded="UserControl_Loaded">
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 工具栏 -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 搜索框 -->
+            <Grid Grid.Column="0" Width="250" Margin="0,0,16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <materialDesign:PackIcon Kind="Magnify" Grid.Column="0" Margin="8,0,0,0" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                         materialDesign:HintAssist.Hint="搜索..." 
+                         Margin="8,0,0,0" />
+            </Grid>
+
+            <!-- 列设置按钮 -->
+            <Button Grid.Column="2" Style="{StaticResource MaterialDesignIconButton}" 
+                    Margin="0,0,16,0"
+                    Command="{Binding ShowColumnSettingsCommand}"
+                    ToolTip="列设置">
+                <materialDesign:PackIcon Kind="TableColumnPlusBefore" />
+            </Button>
+
+            <!-- 刷新按钮 -->
+            <Button Grid.Column="3" Style="{StaticResource MaterialDesignRaisedButton}" 
+                    Command="{Binding RefreshCommand}"
+                    Content="刷新" />
+        </Grid>
+
+        <!-- 数据表格 - VSCode深色主题风格 -->
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="#3E3E42" Background="#1E1E1E">
+            <DataGrid x:Name="TaskDataGrid"
+                      ItemsSource="{Binding SubTasks}" 
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Margin="5"
+                      Background="#1E1E1E"
+                      Foreground="#D4D4D4"
+                      BorderBrush="#3E3E42"
+                      BorderThickness="1"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All"
+                      RowBackground="#252526"
+                      AlternatingRowBackground="#2D2D30"
+                      HorizontalGridLinesBrush="#3E3E42"
+                      VerticalGridLinesBrush="#3E3E42">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                    <DataGridTextColumn Header="任务名称" Binding="{Binding TaskName}" Width="150"
+                                    Visibility="{Binding DataContext.ShowTaskNameColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridTextColumn Header="任务编号" Binding="{Binding TaskNumber}" Width="120"
+                                    Visibility="{Binding DataContext.ShowTaskNumberColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="80"
+                                    Visibility="{Binding DataContext.ShowTaskStatusColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridTextColumn Header="优先级" Binding="{Binding Priority}" Width="80"
+                                    Visibility="{Binding DataContext.ShowPriorityColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridTextColumn Header="创建时间" Binding="{Binding CreatedAt, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="150"
+                                    Visibility="{Binding DataContext.ShowCreatedAtColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridTextColumn Header="更新时间" Binding="{Binding UpdatedAt, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="150"
+                                    Visibility="{Binding DataContext.ShowUpdatedAtColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridTextColumn Header="预计工时" Binding="{Binding EstimatedHours}" Width="80"
+                                    Visibility="{Binding DataContext.ShowEstimatedHoursColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridTextColumn Header="预计完成时间" Binding="{Binding EstimatedCompletionTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="150"
+                                    Visibility="{Binding DataContext.ShowEstimatedCompletionTimeColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridTextColumn Header="实际完成时间" Binding="{Binding ActualCompletionTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Width="150"
+                                    Visibility="{Binding DataContext.ShowActualCompletionTimeColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridCheckBoxColumn Header="代码已合并" Binding="{Binding IsCodeMerged}" Width="80"
+                                       Visibility="{Binding DataContext.ShowCodeMergedColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridCheckBoxColumn Header="SQL脚本" Binding="{Binding HasSqlScript}" Width="80"
+                                       Visibility="{Binding DataContext.ShowSqlColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <DataGridCheckBoxColumn Header="配置信息" Binding="{Binding HasConfiguration}" Width="80"
+                                       Visibility="{Binding DataContext.ShowConfigurationColumn, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </DataGrid.Columns>
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3F3F46"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#2D2D30"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#FFFFFF"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#D4D4D4"/>
+                    
+                    <!-- 列头样式 -->
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="#2D2D30" />
+                        <Setter Property="Foreground" Value="#D4D4D4" />
+                        <Setter Property="BorderBrush" Value="#3E3E42" />
+                        <Setter Property="BorderThickness" Value="0,0,1,1" />
+                        <Setter Property="Padding" Value="8,4" />
+                    </Style>
+                    
+                    <!-- 单元格样式 -->
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="BorderBrush" Value="#3E3E42" />
+                        <Setter Property="BorderThickness" Value="0,0,1,1" />
+                        <Setter Property="Padding" Value="8,4" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#3F3F46" />
+                                <Setter Property="Foreground" Value="#FFFFFF" />
+                                <Setter Property="BorderBrush" Value="#3E3E42" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>

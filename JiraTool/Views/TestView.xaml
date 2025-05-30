@@ -1,0 +1,13 @@
+<UserControl x:Class="JiraTool.Views.TestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:JiraTool.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <TextBlock Text="这是测试视图" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" Foreground="Red"/>
+        <DataGrid ItemsSource="{Binding TestItems}" AutoGenerateColumns="True" Margin="20" Background="Yellow"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,353 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\viewmodels\\tasklistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\viewmodels\\tasklistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\services\\jiradatascraperservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\services\\jiradatascraperservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\controls\\notification\\handynotificationtemplate.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\controls\\notification\\handynotificationtemplate.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\views\\jiraloginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\views\\jiraloginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\views\\testview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\views\\testview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\views\\loginview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\views\\loginview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\config\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\config\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\views\\settingsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\views\\settingsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\views\\loginview.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\views\\loginview.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\views\\tasklistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\views\\tasklistview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\viewmodels\\base\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\viewmodels\\base\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\viewmodels\\base\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\viewmodels\\base\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\models\\jiratask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\models\\jiratask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\models\\jirasubtask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\models\\jirasubtask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|c:\\users\\kevin\\cascadeprojects\\jiratool\\jiratool\\assets\\icons\\app.ico||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{580B13D1-F2CE-4F92-A1D5-11FF3C49B2D2}|JiraTool\\JiraTool.csproj|solutionrelative:jiratool\\assets\\icons\\app.ico||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "HandyNotificationTemplate.xaml",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Controls\\Notification\\HandyNotificationTemplate.xaml",
+              "RelativeDocumentMoniker": "JiraTool\\Controls\\Notification\\HandyNotificationTemplate.xaml",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Controls\\Notification\\HandyNotificationTemplate.xaml",
+              "RelativeToolTip": "JiraTool\\Controls\\Notification\\HandyNotificationTemplate.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-29T07:18:12.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TaskListViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\TaskListViewModel.cs",
+              "RelativeDocumentMoniker": "JiraTool\\ViewModels\\TaskListViewModel.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\TaskListViewModel.cs",
+              "RelativeToolTip": "JiraTool\\ViewModels\\TaskListViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG8BAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T17:06:42.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "JiraTool\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "JiraTool\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T16:44:18.675Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AppSettings.json",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Config\\AppSettings.json",
+              "RelativeDocumentMoniker": "JiraTool\\Config\\AppSettings.json",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Config\\AppSettings.json",
+              "RelativeToolTip": "JiraTool\\Config\\AppSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-27T18:44:59.897Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JiraDataScraperService.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Services\\JiraDataScraperService.cs",
+              "RelativeDocumentMoniker": "JiraTool\\Services\\JiraDataScraperService.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Services\\JiraDataScraperService.cs",
+              "RelativeToolTip": "JiraTool\\Services\\JiraDataScraperService.cs",
+              "ViewState": "AgIAAMwBAAAAAAAAAAAswOABAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T16:50:54.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "JiraTool\\ViewModels\\MainViewModel.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\MainViewModel.cs",
+              "RelativeToolTip": "JiraTool\\ViewModels\\MainViewModel.cs",
+              "ViewState": "AgIAAAQCAAAAAAAAAAAYwBgCAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:20:00.055Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TestView.xaml",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\TestView.xaml",
+              "RelativeDocumentMoniker": "JiraTool\\Views\\TestView.xaml",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\TestView.xaml",
+              "RelativeToolTip": "JiraTool\\Views\\TestView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-28T17:10:13.803Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "JiraLoginWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\JiraLoginWindow.xaml",
+              "RelativeDocumentMoniker": "JiraTool\\Views\\JiraLoginWindow.xaml",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\JiraLoginWindow.xaml",
+              "RelativeToolTip": "JiraTool\\Views\\JiraLoginWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-28T17:10:20.976Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "JiraTool\\ViewModels\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\LoginViewModel.cs",
+              "RelativeToolTip": "JiraTool\\ViewModels\\LoginViewModel.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAA9wIAAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:45:29.125Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "LoginView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\LoginView.xaml.cs",
+              "RelativeDocumentMoniker": "JiraTool\\Views\\LoginView.xaml.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\LoginView.xaml.cs",
+              "RelativeToolTip": "JiraTool\\Views\\LoginView.xaml.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T13:05:43.553Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "JiraTask.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Models\\JiraTask.cs",
+              "RelativeDocumentMoniker": "JiraTool\\Models\\JiraTask.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Models\\JiraTask.cs",
+              "RelativeToolTip": "JiraTool\\Models\\JiraTask.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:44:49.789Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginView.xaml",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\LoginView.xaml",
+              "RelativeDocumentMoniker": "JiraTool\\Views\\LoginView.xaml",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\LoginView.xaml",
+              "RelativeToolTip": "JiraTool\\Views\\LoginView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-27T18:04:06.263Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SettingsView.xaml",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\SettingsView.xaml",
+              "RelativeDocumentMoniker": "JiraTool\\Views\\SettingsView.xaml",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\SettingsView.xaml",
+              "RelativeToolTip": "JiraTool\\Views\\SettingsView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-28T13:07:37.601Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\App.xaml.cs",
+              "RelativeDocumentMoniker": "JiraTool\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\App.xaml.cs",
+              "RelativeToolTip": "JiraTool\\App.xaml.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAYwFwAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:05:34.477Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "JiraSubTask.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Models\\JiraSubTask.cs",
+              "RelativeDocumentMoniker": "JiraTool\\Models\\JiraSubTask.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Models\\JiraSubTask.cs",
+              "RelativeToolTip": "JiraTool\\Models\\JiraSubTask.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:19:44.401Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "JiraTool\\Views\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\MainWindow.xaml",
+              "RelativeToolTip": "JiraTool\\Views\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-27T18:05:01.445Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TaskListView.xaml",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\TaskListView.xaml",
+              "RelativeDocumentMoniker": "JiraTool\\Views\\TaskListView.xaml",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Views\\TaskListView.xaml",
+              "RelativeToolTip": "JiraTool\\Views\\TaskListView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-27T18:05:12.622Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "RelayCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\Base\\RelayCommand.cs",
+              "RelativeDocumentMoniker": "JiraTool\\ViewModels\\Base\\RelayCommand.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\Base\\RelayCommand.cs",
+              "RelativeToolTip": "JiraTool\\ViewModels\\Base\\RelayCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:45:21.05Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ViewModelBase.cs",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\Base\\ViewModelBase.cs",
+              "RelativeDocumentMoniker": "JiraTool\\ViewModels\\Base\\ViewModelBase.cs",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\ViewModels\\Base\\ViewModelBase.cs",
+              "RelativeToolTip": "JiraTool\\ViewModels\\Base\\ViewModelBase.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:45:23.388Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "app.ico",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Assets\\Icons\\app.ico",
+              "RelativeDocumentMoniker": "JiraTool\\Assets\\Icons\\app.ico",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\Assets\\Icons\\app.ico",
+              "RelativeToolTip": "JiraTool\\Assets\\Icons\\app.ico",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001525|",
+              "WhenOpened": "2025-05-27T18:11:35.977Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\App.xaml",
+              "RelativeDocumentMoniker": "JiraTool\\App.xaml",
+              "ToolTip": "C:\\Users\\Kevin\\CascadeProjects\\JiraTool\\JiraTool\\App.xaml",
+              "RelativeToolTip": "JiraTool\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-27T18:04:01.543Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

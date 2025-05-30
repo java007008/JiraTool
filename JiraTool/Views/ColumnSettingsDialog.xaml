@@ -1,0 +1,146 @@
+<Window x:Class="JiraTool.Views.ColumnSettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="列设置" 
+        Height="450" 
+        Width="400"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        BorderThickness="1"
+        BorderBrush="#3E3E42">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- 自定义标题栏 -->
+        <Border Grid.Row="0" Background="#2D2D30" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+            <Grid>
+                <TextBlock Text="列设置" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Left"
+                           Margin="16,0,0,0"
+                           Foreground="#D4D4D4"
+                           FontSize="14"/>
+                <Button x:Name="CloseButton" 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center"
+                        Padding="8"
+                        Click="CloseButton_Click">
+                    <materialDesign:PackIcon Kind="Close" Width="16" Height="16" />
+                </Button>
+            </Grid>
+        </Border>
+        
+        <!-- 内容区域 -->
+        <Grid Grid.Row="1" Grid.RowSpan="3" Margin="16,16,16,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- 标题 -->
+            <TextBlock Grid.Row="0" 
+                       Text="选择要显示的列" 
+                       Style="{StaticResource MaterialDesignHeadline6TextBlock}" 
+                       Margin="0,0,0,16"/>
+        
+        <!-- 列选项 -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <CheckBox Content="任务名称" 
+                          IsChecked="{Binding ShowTaskNameColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="任务编号" 
+                          IsChecked="{Binding ShowTaskNumberColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="主任务编号" 
+                          IsChecked="{Binding ShowParentTaskNumberColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="任务状态" 
+                          IsChecked="{Binding ShowTaskStatusColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="主任务状态" 
+                          IsChecked="{Binding ShowParentTaskStatusColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="预计工时" 
+                          IsChecked="{Binding ShowEstimatedHoursColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="预计完成时间" 
+                          IsChecked="{Binding ShowEstimatedCompletionTimeColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="实际完成时间" 
+                          IsChecked="{Binding ShowActualCompletionTimeColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="创建时间" 
+                          IsChecked="{Binding ShowCreatedAtColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="更新时间" 
+                          IsChecked="{Binding ShowUpdatedAtColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="优先级" 
+                          IsChecked="{Binding ShowPriorityColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="班车名" 
+                          IsChecked="{Binding ShowBanCheNameColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="代码已合并" 
+                          IsChecked="{Binding ShowCodeMergedColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="SQL脚本" 
+                          IsChecked="{Binding ShowSqlColumn}" 
+                          Margin="0,8,0,0"/>
+                
+                <CheckBox Content="配置信息" 
+                          IsChecked="{Binding ShowConfigurationColumn}" 
+                          Margin="0,8,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <!-- 按钮 -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="0,16,0,0">
+            <Button Content="取消" 
+                    Style="{StaticResource MaterialDesignOutlinedButton}" 
+                    Margin="0,0,8,0" 
+                    Click="CancelButton_Click"/>
+            
+            <Button Content="确定" 
+                    Style="{StaticResource MaterialDesignRaisedButton}" 
+                    Click="OkButton_Click"/>
+        </StackPanel>
+            </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,1049 @@
+using JiraTool.Data;
+using JiraTool.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace JiraTool.Services
+{
+    /// <summary>
+    /// 数据库服务接口
+    /// </summary>
+    public interface IDatabaseService
+    {
+        Task<List<JiraSubTask>> GetAllTasksAsync();
+        Task<List<JiraTask>> GetAllParentTasksAsync();
+        Task<bool> SaveTasksAsync(List<JiraSubTask> subTasks);
+        Task<bool> SaveParentTasksAsync(List<JiraTask> parentTasks);
+        Task<bool> UpdateTasksAsync(List<JiraSubTask> subTasks);
+        Task<UserSettings> GetUserSettingsAsync();
+        Task<bool> SaveUserSettingsAsync(UserSettings settings);
+        Task<int> ExecuteSqlRawAsync(string sql, params object[] parameters);
+    }
+
+    /// <summary>
+    /// 数据库服务类，提供对数据库的操作
+    /// </summary>
+    public class DatabaseService : IDatabaseService
+    {
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="contextFactory">数据库上下文工厂</param>
+        public DatabaseService(IDbContextFactory<ApplicationDbContext> contextFactory)
+        {
+            _contextFactory = contextFactory;
+        }
+
+        /// <summary>
+        /// 获取用户设置
+        /// </summary>
+        /// <returns>用户设置对象</returns>
+        public async Task<UserSettings> GetUserSettingsAsync()
+        {
+            using var context = await _contextFactory.CreateDbContextAsync();
+            var settings = await context.UserSettings.FirstOrDefaultAsync();
+            return settings ?? new UserSettings { Id = 1 };
+        }
+
+        /// <summary>
+        /// 保存用户设置
+        /// </summary>
+        /// <param name="settings">用户设置对象</param>
+        /// <returns>保存操作的任务</returns>
+        public async Task<bool> SaveUserSettingsAsync(UserSettings settings)
+        {
+            using var context = await _contextFactory.CreateDbContextAsync();
+            var existingSettings = await context.UserSettings.FirstOrDefaultAsync();
+
+            if (existingSettings == null)
+            {
+                context.UserSettings.Add(settings);
+            }
+            else
+            {
+                existingSettings.Username = settings.Username;
+                existingSettings.EncryptedPassword = settings.EncryptedPassword;
+                existingSettings.JiraServerUrl = settings.JiraServerUrl;
+                existingSettings.RememberPassword = settings.RememberPassword;
+                existingSettings.AutoLogin = settings.AutoLogin;
+                existingSettings.WindowWidth = settings.WindowWidth;
+                existingSettings.WindowHeight = settings.WindowHeight;
+                existingSettings.RefreshInterval = settings.RefreshInterval;
+                existingSettings.MinimizeToTrayOnStart = settings.MinimizeToTrayOnStart;
+                existingSettings.MinimizeToTrayOnClose = settings.MinimizeToTrayOnClose;
+                context.UserSettings.Update(existingSettings);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 保存列设置
+        /// </summary>
+        /// <param name="showTaskNameColumn">是否显示任务名称列</param>
+        /// <param name="showTaskNumberColumn">是否显示任务编号列</param>
+        /// <param name="showParentTaskNumberColumn">是否显示父任务编号列</param>
+        /// <param name="showTaskStatusColumn">是否显示任务状态列</param>
+        /// <param name="showParentTaskStatusColumn">是否显示父任务状态列</param>
+        /// <param name="showEstimatedHoursColumn">是否显示预计工时列</param>
+        /// <param name="showEstimatedCompletionTimeColumn">是否显示预计完成时间列</param>
+        /// <param name="showActualCompletionTimeColumn">是否显示实际完成时间列</param>
+        /// <param name="showCreatedAtColumn">是否显示创建时间列</param>
+        /// <param name="showUpdatedAtColumn">是否显示更新时间列</param>
+        /// <param name="showPriorityColumn">是否显示优先级列</param>
+        /// <param name="showBanCheNameColumn">是否显示班车名列</param>
+        /// <param name="showCodeMergedColumn">是否显示代码已合并列</param>
+        /// <param name="showSqlColumn">是否显示SQL列</param>
+        /// <param name="showConfigurationColumn">是否显示配置列</param>
+        /// <returns>保存操作的任务</returns>
+        public async Task SaveColumnSettings(
+            bool showTaskNameColumn,
+            bool showTaskNumberColumn,
+            bool showParentTaskNumberColumn,
+            bool showTaskStatusColumn,
+            bool showParentTaskStatusColumn,
+            bool showEstimatedHoursColumn,
+            bool showEstimatedCompletionTimeColumn,
+            bool showActualCompletionTimeColumn,
+            bool showCreatedAtColumn,
+            bool showUpdatedAtColumn,
+            bool showPriorityColumn,
+            bool showBanCheNameColumn,
+            bool showCodeMergedColumn,
+            bool showSqlColumn,
+            bool showConfigurationColumn)
+        {
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                var settings = await context.UserSettings.FirstOrDefaultAsync() ?? new UserSettings { Id = 1 };
+                
+                settings.ShowTaskNameColumn = showTaskNameColumn;
+                settings.ShowTaskNumberColumn = showTaskNumberColumn;
+                settings.ShowParentTaskNumberColumn = showParentTaskNumberColumn;
+                settings.ShowTaskStatusColumn = showTaskStatusColumn;
+                settings.ShowParentTaskStatusColumn = showParentTaskStatusColumn;
+                settings.ShowEstimatedHoursColumn = showEstimatedHoursColumn;
+                settings.ShowEstimatedCompletionTimeColumn = showEstimatedCompletionTimeColumn;
+                settings.ShowActualCompletionTimeColumn = showActualCompletionTimeColumn;
+                settings.ShowCreatedAtColumn = showCreatedAtColumn;
+                settings.ShowUpdatedAtColumn = showUpdatedAtColumn;
+                settings.ShowPriorityColumn = showPriorityColumn;
+                settings.ShowBanCheNameColumn = showBanCheNameColumn;
+                settings.ShowCodeMergedColumn = showCodeMergedColumn;
+                settings.ShowSqlColumn = showSqlColumn;
+                settings.ShowConfigurationColumn = showConfigurationColumn;
+                
+                if (context.Entry(settings).State == EntityState.Detached)
+                {
+                    context.UserSettings.Add(settings);
+                }
+                else
+                {
+                    context.UserSettings.Update(settings);
+                }
+                
+                await context.SaveChangesAsync();
+                
+                System.Diagnostics.Debug.WriteLine("保存列设置成功");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"保存列设置失败: {ex.Message}");
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// 保存列设置
+        /// </summary>
+        /// <param name="viewModel">任务列表视图模型</param>
+        /// <returns>保存操作的任务</returns>
+        public async Task SaveColumnSettings(ViewModels.TaskListViewModel viewModel)
+        {
+            try
+            {
+                // 使用模拟延迟来模拟保存操作
+                await Task.Delay(300);
+                
+                // 在真实实现中，我们会从数据库中获取用户设置并更新列设置
+                // using var context = await _contextFactory.CreateDbContextAsync();
+                // var settings = await context.UserSettings.FirstOrDefaultAsync() ?? new UserSettings { Id = 1 };
+                
+                // settings.ShowTaskNameColumn = viewModel.ShowTaskNameColumn;
+                // settings.ShowTaskNumberColumn = viewModel.ShowTaskNumberColumn;
+                // settings.ShowParentTaskNumberColumn = viewModel.ShowParentTaskNumberColumn;
+                // settings.ShowTaskStatusColumn = viewModel.ShowTaskStatusColumn;
+                // settings.ShowParentTaskStatusColumn = viewModel.ShowParentTaskStatusColumn;
+                // settings.ShowEstimatedHoursColumn = viewModel.ShowEstimatedHoursColumn;
+                // settings.ShowEstimatedCompletionTimeColumn = viewModel.ShowEstimatedCompletionTimeColumn;
+                // settings.ShowActualCompletionTimeColumn = viewModel.ShowActualCompletionTimeColumn;
+                // settings.ShowCreatedAtColumn = viewModel.ShowCreatedAtColumn;
+                // settings.ShowUpdatedAtColumn = viewModel.ShowUpdatedAtColumn;
+                // settings.ShowPriorityColumn = viewModel.ShowPriorityColumn;
+                // settings.ShowBanCheNameColumn = viewModel.ShowBanCheNameColumn;
+                // settings.ShowCodeMergedColumn = viewModel.ShowCodeMergedColumn;
+                // settings.ShowSqlColumn = viewModel.ShowSqlColumn;
+                // settings.ShowConfigurationColumn = viewModel.ShowConfigurationColumn;
+                
+                // if (context.Entry(settings).State == EntityState.Detached)
+                // {
+                //     context.UserSettings.Add(settings);
+                // }
+                // else
+                // {
+                //     context.Entry(settings).State = EntityState.Modified;
+                // }
+                
+                // await context.SaveChangesAsync();
+                
+                System.Diagnostics.Debug.WriteLine("保存列设置成功");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"保存列设置失败: {ex.Message}");
+                throw;
+            }
+        }
+
+        
+        /// <summary>
+        /// 获取所有子任务
+        /// </summary>
+        /// <returns>子任务列表</returns>
+        public async Task<List<JiraSubTask>> GetAllTasksAsync()
+        {
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                
+                // 使用原始 SQL 查询获取数据，避免实体跟踪
+                var subTasksData = await context.SubTasks
+                    .AsNoTracking()
+                    .Include(t => t.ParentTask)
+                    .ToListAsync();
+                
+                // 手动创建新的实体对象，完全避免实体跟踪冲突
+                var result = new List<JiraSubTask>();
+                
+                foreach (var subTask in subTasksData)
+                {
+                    // 创建新的子任务对象
+                    var newSubTask = new JiraSubTask
+                    {
+                        Id = subTask.Id,
+                        TaskNumber = subTask.TaskNumber,
+                        TaskName = subTask.TaskName,
+                        Status = subTask.Status,
+                        Priority = subTask.Priority,
+                        EstimatedHours = subTask.EstimatedHours,
+                        EstimatedCompletionTime = subTask.EstimatedCompletionTime,
+                        ActualCompletionTime = subTask.ActualCompletionTime,
+                        CreatedAt = subTask.CreatedAt,
+                        UpdatedAt = subTask.UpdatedAt,
+                        IsCodeMerged = subTask.IsCodeMerged,
+                        HasSqlScript = subTask.HasSqlScript,
+                        SqlScript = subTask.SqlScript,
+                        HasConfiguration = subTask.HasConfiguration,
+                        Configuration = subTask.Configuration,
+                        TaskUrl = subTask.TaskUrl,
+                        ParentTaskId = subTask.ParentTaskId
+                    };
+                    
+                    // 如果有父任务，创建新的父任务对象
+                    if (subTask.ParentTask != null)
+                    {
+                        var parentTask = subTask.ParentTask;
+                        var newParentTask = new JiraTask
+                        {
+                            Id = parentTask.Id,
+                            TaskNumber = parentTask.TaskNumber,
+                            Description = parentTask.Description,
+                            Status = parentTask.Status,
+                            BanCheName = parentTask.BanCheName,
+                            PreviousBanCheName = parentTask.PreviousBanCheName,
+                            TaskUrl = parentTask.TaskUrl,
+                            CreatedAt = parentTask.CreatedAt,
+                            UpdatedAt = parentTask.UpdatedAt
+                        };
+                        
+                        // 设置新的父任务对象
+                        newSubTask.ParentTask = newParentTask;
+                    }
+                    
+                    result.Add(newSubTask);
+                }
+                
+                System.Diagnostics.Debug.WriteLine($"从数据库加载了 {result.Count} 条子任务");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"获取任务失败: {ex.Message}");
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// 初始化测试数据
+        /// </summary>
+        /// <returns>初始化是否成功</returns>
+        public async Task<bool> InitializeTestDataAsync()
+        {
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                
+                // 检查是否已经有数据
+                if (await context.Tasks.AnyAsync())
+                {
+                    System.Diagnostics.Debug.WriteLine("数据库中已有数据，跳过初始化测试数据");
+                    return true;
+                }
+                
+                // 创建模拟数据
+                var random = new Random();
+                var parentTasks = new List<JiraTask>();
+                var subTasks = new List<JiraSubTask>();
+                
+                // 创建10个主任务
+                for (int i = 1; i <= 10; i++)
+                {
+                    var parentTask = new JiraTask
+                    {
+                        TaskNumber = $"TASK-{i}",
+                        Description = $"主任务 {i}",
+                        Status = i % 3 == 0 ? "已完成" : (i % 3 == 1 ? "进行中" : "待处理"),
+                        BanCheName = $"班车{random.Next(1, 10)}",
+                        PreviousBanCheName = random.Next(2) == 0 ? $"旧班车{random.Next(1, 5)}" : null,
+                        TaskUrl = $"https://jira.example.com/browse/TASK-{i}"
+                    };
+                    
+                    parentTasks.Add(parentTask);
+                    
+                    // 为每个主任务创建2-5个子任务
+                    int subTaskCount = random.Next(2, 6);
+                    for (int j = 1; j <= subTaskCount; j++)
+                    {
+                        var subTask = new JiraSubTask
+                        {
+                            TaskNumber = $"SUBTASK-{i}-{j}",
+                            TaskName = $"子任务 {i}-{j}",
+                            Status = j % 4 == 0 ? "已完成" : (j % 4 == 1 ? "进行中" : (j % 4 == 2 ? "待测试" : "待处理")),
+                            Priority = j % 3 == 0 ? "高" : (j % 3 == 1 ? "中" : "低"),
+                            EstimatedHours = random.Next(1, 40),
+                            EstimatedCompletionTime = DateTime.Now.AddDays(random.Next(1, 30)),
+                            ActualCompletionTime = j % 4 == 0 ? DateTime.Now.AddDays(-random.Next(1, 10)) : null,
+                            CreatedAt = DateTime.Now.AddDays(-random.Next(10, 60)),
+                            UpdatedAt = DateTime.Now.AddDays(-random.Next(1, 10)),
+                            ParentTask = parentTask,
+                            TaskUrl = $"https://jira.example.com/browse/SUBTASK-{i}-{j}"
+                        };
+                        
+                        if (random.Next(3) == 0) // 33%的概率
+                        {
+                            subTask.IsCodeMerged = true;
+                        }
+                        
+                        if (random.Next(4) == 0) // 25%的概率
+                        {
+                            subTask.HasSqlScript = true;
+                            subTask.SqlScript = "SELECT * FROM users WHERE id = 1;";
+                        }
+                        
+                        if (random.Next(4) == 0) // 25%的概率
+                        {
+                            subTask.HasConfiguration = true;
+                            subTask.Configuration = @"{
+  ""serverUrl"": ""https://api.example.com"",
+  ""timeout"": 30000,
+  ""maxRetries"": 3
+}";
+                        }
+                        
+                        subTasks.Add(subTask);
+                    }
+                }
+                
+                // 将父任务添加到数据库
+                await context.Tasks.AddRangeAsync(parentTasks);
+                await context.SaveChangesAsync();
+                
+                // 将子任务添加到数据库
+                await context.SubTasks.AddRangeAsync(subTasks);
+                await context.SaveChangesAsync();
+                
+                System.Diagnostics.Debug.WriteLine($"成功初始化了 {parentTasks.Count} 个父任务和 {subTasks.Count} 个子任务到数据库");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"初始化测试数据失败: {ex.Message}");
+                return false;
+            }
+        }
+
+                
+            if (existingParent == null)
+                // 创建一个新的上下文实例
+                using var context = await _contextFactory.CreateDbContextAsync();
+                
+                // 开始事务
+                await using var transaction = await context.Database.BeginTransactionAsync();
+                
+                // 首先处理父任务
+                var parentTasks = subTasks
+                    .Where(t => t.ParentTask != null)
+                    .Select(t => t.ParentTask)
+                    .ToList();
+                    
+                // 使用字典来跟踪已处理的父任务，避免重复处理
+                var processedParentTasks = new Dictionary<string, JiraTask>();
+                    
+                foreach (var parentTask in parentTasks)
+                {
+                    // 如果已经处理过这个父任务，跳过
+                    if (processedParentTasks.ContainsKey(parentTask.TaskNumber))
+                    {
+                        continue;
+                    }
+                    
+                    var existingParent = await context.Tasks
+                        .AsNoTracking() // 使用AsNoTracking来避免实体跟踪冲突
+                        .FirstOrDefaultAsync(t => t.TaskNumber == parentTask.TaskNumber);
+                        
+                    if (existingParent == null)
+                    {
+                        // 创建新的父任务对象
+                        var newParentTask = new JiraTask
+                        {
+                            TaskNumber = parentTask.TaskNumber,
+                            Description = parentTask.Description,
+                            Status = parentTask.Status,
+                            BanCheName = parentTask.BanCheName,
+                            PreviousBanCheName = parentTask.PreviousBanCheName,
+                            TaskUrl = parentTask.TaskUrl,
+                            CreatedAt = parentTask.CreatedAt,
+                            UpdatedAt = DateTime.Now
+                        };
+                        
+                        // 新增父任务
+                        context.Tasks.Add(newParentTask);
+                        
+                        // 保存到已处理字典中
+                        processedParentTasks[parentTask.TaskNumber] = newParentTask;
+                    }
+                    else
+                    {
+                        // 将现有父任务的ID赋值给模型对象
+                        parentTask.Id = existingParent.Id;
+                        
+                        // 创建一个新的父任务对象来更新，避免实体跟踪冲突
+                        var updatedParent = new JiraTask
+                        {
+                            Id = existingParent.Id,
+                            TaskNumber = existingParent.TaskNumber,
+                            Description = parentTask.Description,
+                            Status = parentTask.Status,
+                            BanCheName = parentTask.BanCheName,
+                            PreviousBanCheName = parentTask.PreviousBanCheName,
+                            TaskUrl = parentTask.TaskUrl,
+                            CreatedAt = existingParent.CreatedAt,
+                            UpdatedAt = DateTime.Now
+                        };
+                        
+                        // 将新实体附加到上下文并标记为已修改
+                        context.Tasks.Attach(updatedParent);
+                        context.Entry(updatedParent).State = EntityState.Modified;
+                        
+                        // 保存到已处理字典中
+                        processedParentTasks[parentTask.TaskNumber] = updatedParent;
+                    }
+                    
+                    // 添加到已处理字典中
+                    processedParentTasks[parentTask.TaskNumber] = parentTask;
+                }
+                
+                // 保存父任务变更
+                await context.SaveChangesAsync();
+                
+                // 清除更改跟踪器，避免实体跟踪冲突
+                context.ChangeTracker.Clear();
+                
+                // 然后处理子任务
+                // 使用字典来跟踪已处理的子任务，避免重复处理
+                var processedSubTasks = new Dictionary<string, JiraSubTask>();
+                
+                foreach (var subTask in subTasks)
+                {
+                    // 如果已经处理过这个子任务，跳过
+                    if (processedSubTasks.ContainsKey(subTask.TaskNumber))
+                    {
+                        continue;
+                    }
+                    
+                    // 如果子任务有父任务，确保设置正确的父任务ID
+                    if (subTask.ParentTask != null)
+                    {
+                        // 使用已处理的父任务字典来获取父任务ID
+                        if (processedParentTasks.TryGetValue(subTask.ParentTask.TaskNumber, out var processedParent))
+                        {
+                            subTask.ParentTaskId = processedParent.Id;
+                        }
+                        else
+                        {
+                            // 如果字典中没有，从数据库查询
+                            var parentTask = await context.Tasks
+                                .AsNoTracking() // 使用AsNoTracking来避免实体跟踪冲突
+                                .FirstOrDefaultAsync(t => t.TaskNumber == subTask.ParentTask.TaskNumber);
+                                
+                            if (parentTask != null)
+                            {
+                                subTask.ParentTaskId = parentTask.Id;
+                            }
+                        }
+                    }
+                    
+                    var existingTask = await context.SubTasks
+                        .AsNoTracking() // 使用AsNoTracking来避免实体跟踪冲突
+                        .FirstOrDefaultAsync(t => t.TaskNumber == subTask.TaskNumber);
+                        
+                    if (existingTask == null)
+                    {
+                        // 新增子任务
+                        context.SubTasks.Add(subTask);
+                    }
+                    else
+                    {
+                        // 将现有子任务的ID赋值给模型对象
+                        subTask.Id = existingTask.Id;
+                        
+                        // 创建一个新的子任务对象来更新，避免实体跟踪冲突
+                        var updatedTask = new JiraSubTask
+                        {
+                            Id = existingTask.Id,
+                            TaskNumber = subTask.TaskNumber,
+                            TaskName = subTask.TaskName,
+                            Status = subTask.Status,
+                            Priority = subTask.Priority,
+                            EstimatedHours = subTask.EstimatedHours,
+                            EstimatedCompletionTime = subTask.EstimatedCompletionTime,
+                            ActualCompletionTime = subTask.ActualCompletionTime,
+                            CreatedAt = existingTask.CreatedAt,
+                            UpdatedAt = DateTime.Now,
+                            IsCodeMerged = subTask.IsCodeMerged,
+                            HasSqlScript = subTask.HasSqlScript,
+                            SqlScript = subTask.SqlScript,
+                            HasConfiguration = subTask.HasConfiguration,
+                            Configuration = subTask.Configuration,
+                            TaskUrl = subTask.TaskUrl,
+                            ParentTaskId = subTask.ParentTaskId
+                        };
+                        
+                        // 将新实体附加到上下文并标记为已修改
+                        context.SubTasks.Attach(updatedTask);
+                        context.Entry(updatedTask).State = EntityState.Modified;
+                        
+                        // 更新已处理字典中的子任务
+                        processedSubTasks[subTask.TaskNumber] = updatedTask;
+                    }
+                    
+                    // 添加到已处理字典中
+                    processedSubTasks[subTask.TaskNumber] = subTask;
+                }
+                
+                // 保存子任务变更
+                await context.SaveChangesAsync();
+                
+                // 提交事务
+                await transaction.CommitAsync();
+                
+                System.Diagnostics.Debug.WriteLine($"保存了 {subTasks.Count} 条子任务数据到数据库");
+                
+                return true;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                System.Diagnostics.Debug.WriteLine($"保存任务失败 (DbUpdateException): {dbEx.Message}");
+                
+                // 记录内部异常详细信息
+                if (dbEx.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"内部异常: {dbEx.InnerException.Message}");
+                    
+                    // 记录实体验证错误
+                    if (dbEx.Entries != null && dbEx.Entries.Any())
+                    {
+                        foreach (var entry in dbEx.Entries)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"冲突实体类型: {entry.Entity.GetType().Name}, 状态: {entry.State}");
+                        }
+                    }
+                }
+                
+                throw;
+            }
+            catch (InvalidOperationException ioEx)
+            {
+                System.Diagnostics.Debug.WriteLine($"保存任务失败 (InvalidOperationException): {ioEx.Message}");
+                if (ioEx.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"内部异常: {ioEx.InnerException.Message}");
+                }
+                throw;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"保存任务失败 (未知异常): {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"内部异常: {ex.InnerException.Message}");
+                }
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 执行原始SQL语句
+        /// </summary>
+        /// <param name="sql">SQL语句</param>
+        /// <param name="parameters">SQL参数</param>
+        /// <returns>受影响的行数</returns>
+        public async Task<int> ExecuteSqlRawAsync(string sql, params object[] parameters)
+        {
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                using var transaction = await context.Database.BeginTransactionAsync();
+                
+                try
+                {
+                    var result = await context.Database.ExecuteSqlRawAsync(sql, parameters);
+                    await transaction.CommitAsync();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    System.Diagnostics.Debug.WriteLine($"执行SQL失败: {ex.Message}");
+                    if (ex.InnerException != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"内部异常: {ex.InnerException.Message}");
+                    }
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"执行SQL失败 (未知异常): {ex.Message}");
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// 获取所有父任务
+        /// </summary>
+        /// <returns>父任务列表</returns>
+        public async Task<List<JiraTask>> GetAllParentTasksAsync()
+        {
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                var tasks = await context.Tasks
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                // 创建新的实例以避免实体跟踪冲突
+                var result = tasks.Select(task => new JiraTask
+                {
+                    Id = task.Id,
+                    TaskNumber = task.TaskNumber,
+                    Description = task.Description,
+                    Status = task.Status,
+                    BanCheName = task.BanCheName,
+                    PreviousBanCheName = task.PreviousBanCheName,
+                    PreviousDescription = task.PreviousDescription,
+                    IsBanCheNameChangeNotified = task.IsBanCheNameChangeNotified,
+                    IsDescriptionChangeNotified = task.IsDescriptionChangeNotified,
+                    TaskUrl = task.TaskUrl,
+                    CreatedAt = task.CreatedAt,
+                    UpdatedAt = task.UpdatedAt,
+                    Priority = task.Priority,
+                    Visibility = task.Visibility
+                }).ToList();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"获取父任务失败: {ex.Message}");
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// 保存父任务
+        /// </summary>
+        /// <param name="parentTasks">父任务列表</param>
+        /// <returns>是否保存成功</returns>
+        public async Task<bool> SaveParentTasksAsync(List<JiraTask> parentTasks)
+        {
+            if (parentTasks == null || !parentTasks.Any())
+            {
+                return true;
+            }
+
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                await using var transaction = await context.Database.BeginTransactionAsync();
+
+                try
+                {
+                    await context.Tasks.AddRangeAsync(parentTasks);
+                    await context.SaveChangesAsync();
+                    
+                    // 提交事务
+                    await transaction.CommitAsync();
+                    
+                    // 清除变更跟踪器，避免实体跟踪冲突
+                    context.ChangeTracker.Clear();
+                    
+                    return true;
+                }
+                catch (DbUpdateException dbEx)
+                {
+                    await transaction.RollbackAsync();
+                    System.Diagnostics.Debug.WriteLine($"保存父任务失败 (DbUpdateException): {dbEx.Message}");
+                    
+                    if (dbEx.InnerException != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"内部异常: {dbEx.InnerException.Message}");
+                    }
+                    
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    System.Diagnostics.Debug.WriteLine($"保存父任务失败: {ex.Message}");
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"保存父任务失败 (未知异常): {ex.Message}");
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// 更新任务列表到数据库
+        /// </summary>
+        /// <param name="subTasks">任务列表</param>
+        /// <returns>更新操作的任务</returns>
+        public async Task<bool> UpdateTasksAsync(List<JiraSubTask> subTasks)
+        {
+            if (subTasks == null || !subTasks.Any())
+            {
+                return true;
+            }
+
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"UpdateTasksAsync: 开始更新 {subTasks.Count} 个子任务");
+                
+                // 创建一个新的上下文实例
+                using var context = await _contextFactory.CreateDbContextAsync();
+                
+                // 开始事务
+                await using var transaction = await context.Database.BeginTransactionAsync();
+                    
+                // 创建一个字典来跟踪已处理的父任务
+                var processedParentTasks = new Dictionary<string, JiraTask>();
+                
+                // 使用字典来跟踪已处理的子任务，避免重复处理
+                var processedSubTasks = new Dictionary<string, JiraSubTask>();
+                
+                // 首先处理所有父任务
+                foreach (var subTask in subTasks)
+                {
+                    if (subTask.ParentTask != null && !processedParentTasks.ContainsKey(subTask.ParentTask.TaskNumber))
+                    {
+                        var parentTask = subTask.ParentTask;
+                        var existingParent = await context.Tasks
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(t => t.TaskNumber == parentTask.TaskNumber);
+                            
+                        if (existingParent != null)
+                        {
+                            // 创建一个新的父任务对象来更新，避免实体跟踪冲突
+                            var updatedParent = new JiraTask
+                            {
+                                Id = existingParent.Id,
+                                TaskNumber = existingParent.TaskNumber,
+                                Description = parentTask.Description,
+                                Status = parentTask.Status,
+                                BanCheName = parentTask.BanCheName,
+                                PreviousBanCheName = parentTask.PreviousBanCheName,
+                                TaskUrl = parentTask.TaskUrl,
+                                CreatedAt = existingParent.CreatedAt,
+                                UpdatedAt = DateTime.Now
+                            };
+                            
+                            // 将新实体附加到上下文并标记为已修改
+                            context.Tasks.Attach(updatedParent);
+                            context.Entry(updatedParent).State = EntityState.Modified;
+                            
+                            // 保存到已处理字典中
+                            processedParentTasks[parentTask.TaskNumber] = updatedParent;
+                        }
+                        else
+                        {
+                            // 如果父任务不存在，创建新的父任务
+                            var newParentTask = new JiraTask
+                            {
+                                TaskNumber = parentTask.TaskNumber,
+                                Description = parentTask.Description,
+                                Status = parentTask.Status,
+                                BanCheName = parentTask.BanCheName,
+                                PreviousBanCheName = parentTask.PreviousBanCheName,
+                                TaskUrl = parentTask.TaskUrl,
+                                CreatedAt = parentTask.CreatedAt,
+                                UpdatedAt = DateTime.Now
+                            };
+                            
+                            // 添加新的父任务
+                            context.Tasks.Add(newParentTask);
+                            
+                            // 保存到已处理字典中
+                            processedParentTasks[parentTask.TaskNumber] = newParentTask;
+                        }
+                    }
+                }
+                
+                // 保存父任务的变更
+                System.Diagnostics.Debug.WriteLine("UpdateTasksAsync: 保存父任务变更");
+                await context.SaveChangesAsync();
+                
+                // 清除更改跟踪器，避免实体跟踪冲突
+                context.ChangeTracker.Clear();
+                
+                // 处理子任务
+                foreach (var subTask in subTasks)
+                {
+                    // 如果已经处理过这个子任务，跳过
+                    if (processedSubTasks.ContainsKey(subTask.TaskNumber))
+                    {
+                        continue;
+                    }
+                    
+                    // 使用AsNoTracking来避免实体跟踪冲突
+                    var existingTask = await context.SubTasks
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(t => t.TaskNumber == subTask.TaskNumber);
+                        
+                    if (existingTask != null)
+                    {
+                        // 将现有子任务的ID赋值给模型对象
+                        subTask.Id = existingTask.Id;
+                
+                        // 创建一个新的实体对象来更新，避免实体跟踪冲突
+                        var updatedTask = new JiraSubTask
+                        {
+                            Id = existingTask.Id,
+                            TaskNumber = subTask.TaskNumber,
+                            TaskName = subTask.TaskName,
+                            Status = subTask.Status,
+                            Priority = subTask.Priority,
+                            EstimatedHours = subTask.EstimatedHours,
+                            EstimatedCompletionTime = subTask.EstimatedCompletionTime,
+                            ActualCompletionTime = subTask.ActualCompletionTime,
+                            CreatedAt = existingTask.CreatedAt,
+                            UpdatedAt = DateTime.Now,
+                            IsCodeMerged = subTask.IsCodeMerged,
+                            HasSqlScript = subTask.HasSqlScript,
+                            SqlScript = subTask.SqlScript,
+                            HasConfiguration = subTask.HasConfiguration,
+                            Configuration = subTask.Configuration,
+                            TaskUrl = subTask.TaskUrl
+                        };
+                        
+                        // 如果有父任务，设置父任务ID
+                        if (subTask.ParentTask != null)
+                        {
+                            // 从数据库中查询父任务
+                            var parentTaskNumber = subTask.ParentTask.TaskNumber;
+                            var parentTask = await context.Tasks
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync(t => t.TaskNumber == parentTaskNumber);
+                                
+                            if (parentTask != null)
+                            {
+                                updatedTask.ParentTaskId = parentTask.Id;
+                            }
+                        }
+                
+                        // 将新实体附加到上下文并标记为已修改
+                        context.SubTasks.Attach(updatedTask);
+                        context.Entry(updatedTask).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        // 如果任务不存在，则添加新任务
+                        // 创建新的子任务对象
+                        var newTask = new JiraSubTask
+                        {
+                            TaskNumber = subTask.TaskNumber,
+                            TaskName = subTask.TaskName,
+                            Status = subTask.Status,
+                            Priority = subTask.Priority,
+                            EstimatedHours = subTask.EstimatedHours,
+                            EstimatedCompletionTime = subTask.EstimatedCompletionTime,
+                            ActualCompletionTime = subTask.ActualCompletionTime,
+                            CreatedAt = subTask.CreatedAt,
+                            UpdatedAt = DateTime.Now,
+                            IsCodeMerged = subTask.IsCodeMerged,
+                            HasSqlScript = subTask.HasSqlScript,
+                            SqlScript = subTask.SqlScript,
+                            HasConfiguration = subTask.HasConfiguration,
+                            Configuration = subTask.Configuration,
+                            TaskUrl = subTask.TaskUrl
+                        };
+                        
+                        // 如果有父任务，设置父任务ID
+                        if (subTask.ParentTask != null)
+                        {
+                            // 从数据库中查询父任务
+                            var parentTaskNumber = subTask.ParentTask.TaskNumber;
+                            var parentTask = await context.Tasks
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync(t => t.TaskNumber == parentTaskNumber);
+                                
+                            if (parentTask != null)
+                            {
+                                newTask.ParentTaskId = parentTask.Id;
+                            }
+                        }
+                        
+                        // 添加新的子任务
+                        context.SubTasks.Add(newTask);
+                        
+                        // 添加到已处理字典中
+                        processedSubTasks[subTask.TaskNumber] = newTask;
+                    }
+                    // 已处理的子任务在各自的分支中已经添加到字典
+                }
+                
+                // 保存所有变更
+                await context.SaveChangesAsync();
+                
+                // 提交事务
+                await transaction.CommitAsync();
+                
+                System.Diagnostics.Debug.WriteLine($"更新了 {subTasks.Count} 条子任务数据到数据库");
+                
+                return true;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                System.Diagnostics.Debug.WriteLine($"更新任务失败 (DbUpdateException): {dbEx.Message}");
+                
+                // 记录内部异常详细信息
+                if (dbEx.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"内部异常: {dbEx.InnerException.Message}");
+                    
+                    // 记录实体验证错误
+                    if (dbEx.Entries != null && dbEx.Entries.Any())
+                    {
+                        foreach (var entry in dbEx.Entries)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"冲突实体类型: {entry.Entity.GetType().Name}, 状态: {entry.State}");
+                        }
+                    }
+                }
+                
+                throw;
+            }
+            catch (InvalidOperationException ioEx)
+            {
+                System.Diagnostics.Debug.WriteLine($"更新任务失败 (InvalidOperationException): {ioEx.Message}");
+                if (ioEx.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"内部异常: {ioEx.InnerException.Message}");
+                }
+                throw;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"更新任务失败 (未知异常): {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"内部异常: {ex.InnerException.Message}");
+                }
+                throw;
+            }
+        }
+        
+        /// <summary>
+        /// 从数据库中删除指定的任务
+        /// </summary>
+        /// <param name="taskNumbers">要删除的任务编号列表</param>
+        /// <returns>删除操作的任务</returns>
+        public async Task DeleteTasksAsync(List<string> taskNumbers)
+        {
+            if (taskNumbers == null || !taskNumbers.Any())
+            {
+                return;
+            }
+
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                
+                // 获取要删除的子任务
+                var tasksToDelete = await context.SubTasks
+                    .AsNoTracking() // 使用AsNoTracking来避免实体跟踪冲突
+                    .Where(t => taskNumbers.Contains(t.TaskNumber))
+                    .ToListAsync();
+                    
+                if (tasksToDelete.Any())
+                {
+                    // 删除子任务
+                    context.SubTasks.RemoveRange(tasksToDelete);
+                    await context.SaveChangesAsync();
+                    System.Diagnostics.Debug.WriteLine($"删除了 {tasksToDelete.Count} 条子任务数据");
+                }
+                
+                // 检查是否有父任务需要删除
+                var parentTaskNumbers = taskNumbers.Where(tn => tn.StartsWith("TASK-")).ToList();
+                if (parentTaskNumbers.Any())
+                {
+                    var parentTasksToDelete = await context.Tasks
+                        .AsNoTracking() // 使用AsNoTracking来避免实体跟踪冲突
+                        .Where(t => parentTaskNumbers.Contains(t.TaskNumber))
+                        .ToListAsync();
+                        
+                    if (parentTasksToDelete.Any())
+                    {
+                        // 删除父任务
+                        context.Tasks.RemoveRange(parentTasksToDelete);
+                        await context.SaveChangesAsync();
+                        System.Diagnostics.Debug.WriteLine($"删除了 {parentTasksToDelete.Count} 条父任务数据");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"删除任务失败: {ex.Message}");
+                throw;
+            }
+        }
+    }
+}

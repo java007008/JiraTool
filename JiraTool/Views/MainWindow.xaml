@@ -1,0 +1,121 @@
+<Window x:Class="JiraTool.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:JiraTool.Views"
+        xmlns:vm="clr-namespace:JiraTool.ViewModels"
+        mc:Ignorable="d"
+        Title="Jira客户端工具" 
+        Height="{Binding WindowHeight}" 
+        Width="{Binding WindowWidth}" 
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        StateChanged="Window_StateChanged"
+        SizeChanged="Window_SizeChanged">
+    
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <local:LoginView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TaskListViewModel}">
+            <local:TaskListView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TestViewModel}">
+            <local:TestView />
+        </DataTemplate>
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <Grid Grid.Row="0" Background="{DynamicResource PrimaryHueDarkBrush}" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 应用图标和标题 -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="10,0,0,0">
+                <Image Source="/Assets/Icons/app.ico" Width="20" Height="20" Margin="0,0,10,0" />
+                <TextBlock Text="Jira" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" />
+            </StackPanel>
+
+            <!-- 标题栏按钮 -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <!-- 登录按钮 -->
+                <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                        Command="{Binding LoginCommand}" 
+                        ToolTip="登录到Jira" 
+                        Margin="0,0,10,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Login" Foreground="White" VerticalAlignment="Center" />
+                        <TextBlock Text="登录" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                
+                <!-- 测试班车号变更通知按钮 -->
+                <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                        Command="{Binding TestBusNotificationCommand}" 
+                        ToolTip="测试班车号变更通知" 
+                        Margin="0,0,10,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="BusAlert" Foreground="White" VerticalAlignment="Center" />
+                        <TextBlock Text="测试通知" Foreground="White" Margin="5,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Width="30" Height="30" Padding="2" 
+                        Command="{Binding MinimizeCommand}">
+                    <materialDesign:PackIcon Kind="WindowMinimize" Foreground="White" />
+                </Button>
+                <Button x:Name="MaximizeButton" Style="{StaticResource MaterialDesignFlatButton}" Width="30" Height="30" Padding="2" 
+                        Click="MaximizeButton_Click">
+                    <materialDesign:PackIcon Kind="WindowMaximize" Foreground="White" />
+                </Button>
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Width="30" Height="30" Padding="2" 
+                        Click="CloseButton_Click">
+                    <materialDesign:PackIcon Kind="WindowClose" Foreground="White" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- 主内容区域 -->
+        <Grid Grid.Row="1">
+            <ContentControl Content="{Binding CurrentViewModel}" />
+        </Grid>
+
+        <!-- 状态栏 -->
+        <Grid Grid.Row="2" Background="{DynamicResource PrimaryHueDarkBrush}" Height="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{Binding LastUpdateTime, StringFormat=最后更新: {0:yyyy-MM-dd HH:mm:ss}}" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center" />
+        </Grid>
+    </Grid>
+</Window>
